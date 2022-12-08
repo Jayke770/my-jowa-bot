@@ -1,0 +1,27 @@
+{
+  "name": "my-jowa-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "npx tsc",
+    "dev": "tsnd --respawn index.ts",
+    "start": "pm2 start ecosystem.config.js --env production"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@grammyjs/conversations": "^1.1.0",
+    "@grammyjs/runner": "^1.0.4",
+    "@grammyjs/transformer-throttler": "^1.2.1",
+    "grammy": "^1.12.0",
+    "openai": "^3.1.0"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^9.0.13",
+    "dotenv": "^16.0.3",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^4.9.4"
+  }
+}
