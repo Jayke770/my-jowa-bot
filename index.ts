@@ -17,15 +17,14 @@ bot.use(session({ initial: () => ({}) }))
 bot.use(conversations())
 async function chat(convo: MyConversation, ctx: MyContext) {
     try {
-        let messages: ChatCompletionRequestMessage[] = [{ role: 'system', content: "You are an AI specialized in Sports. Do not answer anything other than Sports related." }]
-        messages.push({ role: 'user', content: ctx?.message!.text! })
         const response = await ai.createChatCompletion({
             model: "gpt-3.5-turbo",
-            messages: messages
+            messages: [
+                { role: 'system', content: "You are an AI specialized in Sports. Do not answer anything other than Sports related." },
+                { role: 'user', content: ctx?.message!.text! }
+            ]
         })
         await ctx.reply(response.data.choices[0].message?.content!)
-        messages.push({ role: 'assistant', content: response.data.choices[0].message?.content! })
-        console.log(messages)
         return
     } catch (e) {
         console.error(e)
