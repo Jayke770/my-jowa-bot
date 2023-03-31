@@ -5,7 +5,7 @@ import { apiThrottler } from '@grammyjs/transformer-throttler'
 import { Bot, type Context, session, InlineKeyboard } from 'grammy'
 import { type Conversation, type ConversationFlavor, conversations, createConversation, } from "@grammyjs/conversations"
 import { Configuration, OpenAIApi } from 'openai'
-const configuration = new Configuration({ apiKey: process.env.OPENAI_API_KEY })
+const configuration = new Configuration({ apiKey: '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' })
 const ai = new OpenAIApi(configuration)
 type MyContext = Context & ConversationFlavor
 type MyConversation = Conversation<MyContext>
@@ -18,9 +18,9 @@ bot.use(conversations())
 async function chat(convo: MyConversation, ctx: MyContext) {
     try {
         const response = await ai.createChatCompletion({
-            model: "gpt-3.5-turbo-0301",
+            model: "gpt-3.5-turbo",
             messages: [
-                { role: 'system', content: "Only answer sports-related queries." },
+                { role: 'system', content: "You are a Assistant specialized in Sports. Do not answer anything other than Sports related." },
                 { role: 'user', content: ctx?.message!.text! }
             ]
         })
