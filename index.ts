@@ -24,7 +24,6 @@ async function chat(convo: MyConversation, ctx: MyContext) {
                 { role: 'user', content: ctx?.message!.text! }
             ]
         })
-        console.log(response.data.choices)
         await ctx.reply(response.data.choices[0].message?.content!)
     } catch (e) {
         console.error(e)
