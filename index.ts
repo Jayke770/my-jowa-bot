@@ -4,7 +4,7 @@ import { run } from '@grammyjs/runner'
 import { apiThrottler } from '@grammyjs/transformer-throttler'
 import { Bot, type Context, session, InlineKeyboard } from 'grammy'
 import { type Conversation, type ConversationFlavor, conversations, createConversation, } from "@grammyjs/conversations"
-import { type ChatCompletionRequestMessage, Configuration, OpenAIApi } from 'openai'
+import { Configuration, OpenAIApi } from 'openai'
 const configuration = new Configuration({ apiKey: process.env.OPENAI_API_KEY })
 const ai = new OpenAIApi(configuration)
 type MyContext = Context & ConversationFlavor
