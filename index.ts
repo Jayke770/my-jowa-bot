@@ -17,30 +17,10 @@ bot.use(session({ initial: () => ({}) }))
 bot.use(conversations())
 async function chat(convo: MyConversation, ctx: MyContext) {
     try {
-        await ai.createChatCompletion({
-            model: "gpt-3.5-turbo",
-            messages: [
-                { role: 'system', content: "You are an AI specialized in Blockchain or Crypto. Do not answer anything other than blockchain or crypto related queries." },
-                { role: 'user', content: ctx?.message!.text! },
-            ]
-        }).then(async (res) => {
-            const data = res.data.choices
-            await ctx.reply(data[0].message?.content!)
-        }).catch((e) => {
-            throw new Error(e)
-        })
-    } catch (e) {
-        console.error(e)
-        await ctx.reply("An error occured", {})
-    }
-}
-bot.use(createConversation(chat)) 
-bot.on("message", async (ctx) => {
-    try {
         const response = await ai.createChatCompletion({
             model: "gpt-3.5-turbo",
             messages: [
-                { role: 'system', content: "You are an AI specialized in Sports. Do not answer anything other than Sports related queries." },
+                { role: 'system', content: "You are an AI specialized in Sports. Do not answer anything other than Sports related." },
                 { role: 'user', content: ctx?.message!.text! }
             ]
         })
@@ -49,6 +29,8 @@ bot.on("message", async (ctx) => {
     } catch (e) {
         console.error(e)
     }
-})
+}
+bot.use(createConversation(chat))
+bot.on("message", async (ctx) => await ctx.conversation.enter("chat"))
 run(bot)
 console.log("> Bot Started")
