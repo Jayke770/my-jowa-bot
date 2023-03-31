@@ -4,7 +4,7 @@ import { run } from '@grammyjs/runner'
 import { apiThrottler } from '@grammyjs/transformer-throttler'
 import { Bot, type Context, session, InlineKeyboard } from 'grammy'
 import { type Conversation, type ConversationFlavor, conversations, createConversation, } from "@grammyjs/conversations"
-import { Configuration, OpenAIApi } from 'openai'
+import { type ChatCompletionRequestMessage, Configuration, OpenAIApi } from 'openai'
 const configuration = new Configuration({ apiKey: process.env.OPENAI_API_KEY })
 const ai = new OpenAIApi(configuration)
 type MyContext = Context & ConversationFlavor
@@ -17,16 +17,19 @@ bot.use(session({ initial: () => ({}) }))
 bot.use(conversations())
 async function chat(convo: MyConversation, ctx: MyContext) {
     try {
+        let messages: ChatCompletionRequestMessage[] = [{ role: 'system', content: "You are an AI specialized in Sports. Do not answer anything other than Sports related." }]
+        messages.push({ role: 'user', content: ctx?.message!.text! })
         const response = await ai.createChatCompletion({
             model: "gpt-3.5-turbo",
-            messages: [
-                { role: 'system', content: "You are an AI specialized in Sports. Do not answer anything other than Sports related." },
-                { role: 'user', content: ctx?.message!.text! }
-            ]
+            messages: messages
         })
         await ctx.reply(response.data.choices[0].message?.content!)
+        messages.push({ role: 'assistant', content: response.data.choices[0].message?.content! })
+        console.log(messages)
+        return
     } catch (e) {
         console.error(e)
+        return
     }
 }
 bot.use(createConversation(chat))
