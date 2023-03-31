@@ -18,9 +18,9 @@ bot.use(conversations())
 async function chat(convo: MyConversation, ctx: MyContext) {
     try {
         const response = await ai.createChatCompletion({
-            model: "gpt-3.5-turbo",
+            model: "gpt-3.5-turbo-0301",
             messages: [
-                { role: 'system', content: "You are an AI specialized in Sports. Do not answer anything other than Sports related." },
+                { role: 'system', content: "Only answer sports-related queries." },
                 { role: 'user', content: ctx?.message!.text! }
             ]
         })
